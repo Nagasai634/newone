@@ -3,7 +3,6 @@ FROM openjdk:21-slim
 # Update package list and install Maven and wget
 RUN apt update -y && \
     apt install maven -y && \
-    apt install -y wget && \
     apt install -y git && \
     apt clean
 
