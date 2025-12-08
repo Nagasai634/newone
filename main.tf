@@ -16,7 +16,7 @@ resource "google_compute_instance" "tf_vm1" {
     }
     network_interface {
         network = google_compute_network.tf_net1.id
-        subnetwork = google_compute_subnetwork.tf-subnet2.id
+        subnetwork = google_compute_subnetwork.tf-subnet1.id
       access_config {
         
       }
