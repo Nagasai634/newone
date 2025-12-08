@@ -1,0 +1,5 @@
+service:
+  name: nagasai-svc
+  identifier: nagasaisvc
+  orgIdentifier: default
+  projectIdentifier: SFTY_Training
