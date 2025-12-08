@@ -3,3 +3,38 @@ service:
   identifier: nagasaisvc
   orgIdentifier: default
   projectIdentifier: SFTY_Training
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: deployorange
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: Nagasaigithubcreds
+                  gitFetchType: Branch
+                  paths:
+                    - deploy-orange.yaml
+                  repoName: k8s-practical
+                  branch: main
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+              optionalValuesYaml: false
+      artifacts:
+        primary:
+          primaryArtifactRef: <+input>
+          sources:
+            - identifier: NagasaiGar
+              spec:
+                connectorRef: nagasaigcp
+                repositoryType: docker
+                project: hardy-ally-478805-p4
+                region: us-central1
+                repositoryName: docker
+                package: docker
+                version: <+input>
+                digest: v1
+              type: GoogleArtifactRegistry
+    type: Kubernetes
