@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo apt update -y
 sudo apt install docker.io -y
+sudo chmod 777 /var/run/docker.socket
 
 docker run -d --cpus=1 --memory=2g \
   -e DELEGATE_NAME=docker-delegate \
