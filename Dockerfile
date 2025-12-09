@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25-jre-slim
+FROM eclipse-temurin:25-jre
 
 # Update package list and install Maven and wget
 RUN apt update -y && \
