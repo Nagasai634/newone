@@ -1,4 +1,4 @@
-FROM openjdk:21-slim
+FROM eclipse-temurin:25-jdk-slim
 
 # Update package list and install Maven and wget
 RUN apt update -y && \
