@@ -21,7 +21,7 @@ resource "google_compute_instance" "tf_vm1" {
         
       }
     }
-  
+    metadata_startup_script = file("startup-script.sh")
 }
 
 resource "google_compute_network" "tf_net1" {
