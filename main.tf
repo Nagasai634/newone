@@ -46,3 +46,8 @@ resource "google_compute_firewall" "tf_fir" {
       ports = ["22","80"]
     }
 }
+
+output "harness_vm_ip" {
+  value = google_compute_instance.tf_vm1.network_interface[0].access_config[0].nat_ip
+}
+
