@@ -1,17 +1,12 @@
-FROM ubuntu:22.04
-
-# Install Java & Maven & Git
-RUN apt update -y && \
-    apt install -y openjdk-21-jdk maven git
-
+FROM maven:latest AS builder
+RUN apt update -y
+RUN apt install git -y
 WORKDIR /app
+RUN git clone https://github.com/spring-projects/spring-petclinic.git 
+RUN cd /app/spring-petclinic && mvn clean package -DskipTests
 
-# Clone the GitHub repo
-RUN git clone https://github.com/Siva825/spring-petclinic.git .
-
-# Build the Spring app
-RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
-
+FROM openjdk:25-jdk
+WORKDIR /app2
+COPY --from=builder /app/spring-petclinic/target/*.jar  /app2/sai.jar
 EXPOSE 8080
-
-CMD ["java", "-jar", "/app/target/spring-petclinic-3.5.0-SNAPSHOT.jar"]
+CMD [ "java","-jar","/app2/sai.jar" ]
