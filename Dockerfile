@@ -13,7 +13,7 @@ WORKDIR /app
 RUN git clone https://github.com/spring-projects/spring-petclinic.git .
 
 # Build the application
-RUN gradle build
+RUN gradle clean build
 
 # Expose the application port
 EXPOSE 8080
