@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+        - name: nginx-container
+          image: nagasaivardhan/spring-petclinic:v4
+          ports:
+            - containerPort: 8080
