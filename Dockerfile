@@ -2,7 +2,7 @@ FROM eclipse-temurin:25-jre
 
 # Update package list and install Maven and wget
 RUN apt update -y && \
-    apt install maven -y && \
+    apt install gradlew -y && \
     apt install -y git && \
     apt clean
 
