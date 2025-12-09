@@ -1,22 +1,33 @@
-FROM eclipse-temurin:25-jre
+# Use JDK for building, JRE for running (multi-stage build)
+FROM eclipse-temurin:21-jdk AS builder
 
-# Update package list and install Maven and wget
-RUN apt update -y && \
-    apt install gradlew -y && \
-    apt install -y git && \
-    apt clean
+# Install git (gradlew wrapper will handle Gradle)
+RUN apt-get update && \
+    apt-get install -y git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
 WORKDIR /app
 
-# Clone the Spring Pet Clinic repository
-RUN git clone https://github.com/spring-projects/spring-petclinic.git .
+# Clone and build
+RUN git clone https://github.com/spring-projects/spring-petclinic.git . && \
+    chmod +x gradlew && \
+    ./gradlew clean bootJar --no-daemon
 
-# Build the application
-RUN gradle clean build
+# Runtime stage
+FROM eclipse-temurin:21-jre
 
-# Expose the application port
+WORKDIR /app
+
+# Copy the built jar from builder stage
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# Expose port
 EXPOSE 8080
 
-# Command to run the application
-CMD ["java", "-jar", "/app/target/spring-petclinic-2.6.0-SNAPSHOT.jar"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
