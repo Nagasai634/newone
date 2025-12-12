@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: nginx-container
-          image: nagasaivardhan/spring-petclinic:v4
+          image: {{.Values.image}}
           ports:
             - containerPort: 8080
