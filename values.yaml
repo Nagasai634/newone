@@ -1,0 +1,4 @@
+# values.yaml
+image: <+artifacts.primary.image>
+replicas: 2
+# ... other values
