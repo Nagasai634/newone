@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-rollout-rollback
+spec:
+  replicas: 1
+  selector:
+     matchLabels:
+       app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: us-central1-docker.pkg.dev/hardy-ally-478805-p4/deploy-k8s/blue:v1
+          ports:
+            - containerPort: 80
